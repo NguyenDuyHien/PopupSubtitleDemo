@@ -26,11 +26,12 @@ public class DefaultSubtitleEngine implements SubtitleEngine {
     @Nullable
     private List<Subtitle> mSubtitles;
     private UIRenderTask mUIRenderTask;
-//    private MediaPlayer mMediaPlayer;
+    //    private MediaPlayer mMediaPlayer;
     private SubtitleCache mCache;
     private SubtitleEngine.OnSubtitlePreparedListener mOnSubtitlePreparedListener;
     private SubtitleEngine.OnSubtitleChangeListener mOnSubtitleChangeListener;
     private volatile long currentPlayPosition;
+    private long startTime;
 
     public DefaultSubtitleEngine() {
         mCache = new SubtitleCache();
@@ -139,7 +140,7 @@ public class DefaultSubtitleEngine implements SubtitleEngine {
     }
 
     private void createWorkThread() {
-        currentPlayPosition = 0;
+        startTime = System.currentTimeMillis();
         mHandlerThread = new HandlerThread("SubtitleFindThread");
         mHandlerThread.start();
         mWorkHandler = new Handler(mHandlerThread.getLooper(), new Handler.Callback() {
@@ -155,12 +156,14 @@ public class DefaultSubtitleEngine implements SubtitleEngine {
 //                            delay = subtitle.end.mseconds - position;
 //                        }
 //                    }
-                    Subtitle subtitle = SubtitleFinder.find(currentPlayPosition, mSubtitles);
+                    long currentTime = System.currentTimeMillis() - startTime;
+                    Log.d("XXX", currentTime + "");
+                    Subtitle subtitle = SubtitleFinder.find(currentTime, mSubtitles);
                     notifyRefreshUI(subtitle);
                     if (subtitle != null) {
-                        delay = subtitle.end.mseconds - currentPlayPosition;
+                        delay = subtitle.end.mseconds - currentTime;
+                        Log.d("XXX", subtitle.end.mseconds + "");
                     }
-                    currentPlayPosition += REFRESH_INTERVAL;
                     if (mWorkHandler != null) {
                         mWorkHandler.sendEmptyMessageDelayed(MSG_REFRESH, delay);
                     }
