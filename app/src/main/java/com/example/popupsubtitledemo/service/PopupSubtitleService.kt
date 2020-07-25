@@ -9,15 +9,13 @@ import android.os.Environment
 import android.os.IBinder
 import android.view.*
 import android.widget.FrameLayout
-import android.widget.VideoView
 import com.example.popupsubtitledemo.R
 import com.example.popupsubtitledemo.subtitle.widget.SimpleSubtitleView
 import com.example.popupsubtitledemo.ulti.dpToPx
 
-class PopupTextService : Service() {
+class PopupSubtitleService : Service() {
     private lateinit var windowManager: WindowManager
     private var subtitleView: SimpleSubtitleView? = null
-    private var videoView: VideoView? = null
     private var popupTextView: View? = null
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -68,16 +66,9 @@ class PopupTextService : Service() {
         popupTextView = inflater.inflate(R.layout.layout_popup_text, interceptorLayout)
         windowManager.addView(popupTextView, params)
         subtitleView = popupTextView?.findViewById(R.id.subtitle_view)
-//        videoView = popupTextView?.findViewById(R.id.video_view)
         val dir = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
         val path = dir?.absolutePath
-//        videoView?.setOnPreparedListener {
-//            subtitleView?.bindToMediaPlayer(it)
-//
-//        }
         subtitleView?.setSubtitlePath("$path/sample.srt")
         subtitleView?.start()
-//        videoView?.setVideoPath("$path/sample.mp4")
-//        videoView?.start()
     }
 }

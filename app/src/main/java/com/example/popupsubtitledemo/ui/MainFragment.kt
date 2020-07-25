@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.popupsubtitledemo.R
-import com.example.popupsubtitledemo.service.PopupTextService
+import com.example.popupsubtitledemo.service.PopupSubtitleService
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -23,7 +23,7 @@ class MainFragment : Fragment() {
     }
 
     private fun startPopupTextService() {
-        val popupTextService = Intent(activity, PopupTextService::class.java)
+        val popupTextService = Intent(activity, PopupSubtitleService::class.java)
         activity!!.stopService(popupTextService)
         activity!!.startService(popupTextService)
     }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PopupSubtitleDemo</string>
+    <string name="accessibility_service_label">Popup Subtitle Demo</string>
+    <string name="accessibility_service_description">Turn on to use this app</string>
 </resources>
